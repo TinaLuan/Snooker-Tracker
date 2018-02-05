@@ -1,5 +1,6 @@
 package com.example.tina.snookertracker_1899271;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,5 +19,8 @@ public class SetupActivity extends AppCompatActivity {
         String name2 = ((EditText)findViewById(R.id.userName2)).getText().toString();
         //System.out.println(name1 + "  " + name2);
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.NAME1, name1);
+        startActivity(intent);
     }
 }
