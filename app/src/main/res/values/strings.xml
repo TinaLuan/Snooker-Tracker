@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">SnookerTracker-1899271</string>
+    <string name="done_button_text">done</string>
+    <string name="team_one">Team One</string>
+    <string name="team_two">Team Two</string>
 </resources>
