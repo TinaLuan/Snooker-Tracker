@@ -3,4 +3,14 @@
     <string name="done_button_text">done</string>
     <string name="team_one">Team One</string>
     <string name="team_two">Team Two</string>
+
+    <integer name="initial_zero">0</integer>
+    <integer name="red_points">1</integer>
+    <integer name="yellow_points">2</integer>
+    <integer name="green_points">3</integer>
+    <integer name="brown_points">4</integer>
+    <integer name="blue_points">5</integer>
+    <integer name="pink_points">6</integer>
+    <integer name="black_points">7</integer>
+
 </resources>

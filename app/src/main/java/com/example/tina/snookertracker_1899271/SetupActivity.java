@@ -17,10 +17,15 @@ public class SetupActivity extends AppCompatActivity {
     public void onDoneNames(View view) {
         String name1 = ((EditText)findViewById(R.id.userName1)).getText().toString();
         String name2 = ((EditText)findViewById(R.id.userName2)).getText().toString();
+        String name3 = ((EditText)findViewById(R.id.userName3)).getText().toString();
+        String name4 = ((EditText)findViewById(R.id.userName4)).getText().toString();
         //System.out.println(name1 + "  " + name2);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.NAME1, name1);
+        intent.putExtra(MainActivity.NAME2, name2);
+        intent.putExtra(MainActivity.NAME3, name3);
+        intent.putExtra(MainActivity.NAME4, name4);
         startActivity(intent);
     }
 }
