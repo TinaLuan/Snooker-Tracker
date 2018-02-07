@@ -19,14 +19,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String NAME4 = "name4";
 
     public static final int FOUL_PENALTY = 4;
-    public static final int TOTAL_NUM_RED_BALLS = 15;
+    public static final int TOTAL_NUM_RED_BALLS = 5;
 
     private int activeScoreId;
     private int currentNumRed;
 
     //private HashMap<Button, Integer> ballsOnTable = new HashMap<>();
     //private HashMap<Integer, Integer> ballsOnTable = new HashMap<>();
-    private ArrayList<Integer> ballsOnTable = new ArrayList<>();
+    private ArrayList<Integer> clrdBalls = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         activeScoreId = R.id.score1;
         currentNumRed = TOTAL_NUM_RED_BALLS;
 
-        resetBallsOnTable();
+        setupAllBalls();
 
         /*ballsOnTable.put(R.id.red, TOTAL_NUM_RED_BALLS);
         ballsOnTable.put(R.id.yellow, Integer.MAX_VALUE);
@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         ballsOnTable.put((Button)findViewById(R.id.black), Integer.MAX_VALUE);*/
     }
 
-    private void resetBallsOnTable () {
+    private void setupAllBalls () {
         currentNumRed = TOTAL_NUM_RED_BALLS;
-        ballsOnTable.add(R.id.yellow);
-        ballsOnTable.add(R.id.green);
-        ballsOnTable.add(R.id.brown);
+        clrdBalls.add(R.id.yellow);
+        clrdBalls.add(R.id.green);
+        clrdBalls.add(R.id.brown);
     }
 
     // unfinished. could have overloading
@@ -145,9 +145,38 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Ball----" + ((Button)view).getId());
 
         Button button = ((Button)view);
+        button.setClickable(false);
 
+        if (button.getId() == R.id.red && currentNumRed > 0) {
 
+            currentNumRed--;
 
+            for (int ballId : clrdBalls) {
+
+                ((Button)findViewById(ballId)).setClickable(true);
+
+            }
+        // Clicked on any other-coloured ball
+        } else {
+            if (currentNumRed > 0) {
+                ((Button) findViewById(R.id.red)).setClickable(true);
+
+                for (int ballId : clrdBalls) {
+                    ((Button)findViewById(ballId)).setClickable(false);
+                }
+            } else {
+
+                clrdBalls.remove( ((Integer) button.getId()) );
+
+                for (int ballId : clrdBalls) {
+
+                    ((Button)findViewById(ballId)).setClickable(true);
+
+                }
+            }
+
+        }
+/*
         if (button.getId() == R.id.red) {
             int currRedOnTable = ballsOnTable.get(R.id.red)-1;
             ballsOnTable.put(R.id.red, currRedOnTable);
@@ -173,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 ((Button)findViewById(R.id.brown)).setClickable(true);
                 ((Button)findViewById(R.id.blue)).setClickable(true);
                 ((Button)findViewById(R.id.pink)).setClickable(true);
-                ((Button)findViewById(R.id.black)).setClickable(true);*/
+                ((Button)findViewById(R.id.black)).setClickable(true);
             case R.id.yellow:
             case R.id.green:
             case R.id.brown:
@@ -183,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 ((Button)findViewById(R.id.red)).setClickable(true);
         }
 
-
+*/
         int ballPoints = Integer.parseInt( button.getText().toString() );
 
         updatePlayerScore(activeScoreId, ballPoints);
