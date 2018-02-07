@@ -40,8 +40,8 @@
 
     <TextView
         android:id="@+id/nameDisplay1"
-        android:layout_width="47dp"
-        android:layout_height="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -55,8 +55,8 @@
 
     <TextView
         android:id="@+id/nameDisplay2"
-        android:layout_width="51dp"
-        android:layout_height="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -70,8 +70,8 @@
 
     <TextView
         android:id="@+id/nameDisplay3"
-        android:layout_width="61dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -85,8 +85,8 @@
 
     <TextView
         android:id="@+id/nameDisplay4"
-        android:layout_width="55dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -214,7 +214,7 @@
     <Button
         android:id="@+id/yellow"
         android:onClick="onBall"
-        android:clickable="true"
+        android:clickable="false"
         android:layout_width="43dp"
         android:layout_height="42dp"
         android:layout_marginBottom="8dp"
@@ -233,7 +233,7 @@
     <Button
         android:id="@+id/green"
         android:onClick="onBall"
-        android:clickable="true"
+        android:clickable="false"
         android:layout_width="43dp"
         android:layout_height="46dp"
         android:layout_marginBottom="8dp"
@@ -252,6 +252,7 @@
     <Button
         android:id="@+id/brown"
         android:onClick="onBall"
+        android:clickable="false"
         android:layout_width="39dp"
         android:layout_height="42dp"
         android:layout_marginBottom="8dp"
@@ -270,6 +271,7 @@
     <Button
         android:id="@+id/blue"
         android:onClick="onBall"
+        android:clickable="false"
         android:layout_width="41dp"
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
@@ -288,6 +290,7 @@
     <Button
         android:id="@+id/pink"
         android:onClick="onBall"
+        android:clickable="false"
         android:layout_width="44dp"
         android:layout_height="41dp"
         android:layout_marginBottom="8dp"
@@ -306,6 +309,7 @@
     <Button
         android:id="@+id/black"
         android:onClick="onBall"
+        android:clickable="false"
         android:layout_width="37dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"

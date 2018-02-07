@@ -19,13 +19,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String NAME4 = "name4";
 
     public static final int FOUL_PENALTY = 4;
-    public static final int TOTAL_NUM_RED_BALLS = 5;
+    public static final int TOTAL_NUM_RED_BALLS = 3;
 
     private int activeScoreId;
     private int currentNumRed;
-
-    //private HashMap<Button, Integer> ballsOnTable = new HashMap<>();
-    //private HashMap<Integer, Integer> ballsOnTable = new HashMap<>();
     private ArrayList<Integer> clrdBalls = new ArrayList<>();
 
     @Override
@@ -44,22 +41,11 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.nameDisplay4)).setText(name4);
 
         //System.out.println(name1 + "  " + name2 + name3 + name4);
+
         activeScoreId = R.id.score1;
-        currentNumRed = TOTAL_NUM_RED_BALLS;
 
         setupAllBalls();
 
-        /*ballsOnTable.put(R.id.red, TOTAL_NUM_RED_BALLS);
-        ballsOnTable.put(R.id.yellow, Integer.MAX_VALUE);
-        ballsOnTable.put(R.id.green, Integer.MAX_VALUE);*/
-
-        /*ballsOnTable.put((Button)findViewById(R.id.red), NUM_RED_BALLS);
-        ballsOnTable.put((Button)findViewById(R.id.yellow), Integer.MAX_VALUE);
-        ballsOnTable.put((Button)findViewById(R.id.green), Integer.MAX_VALUE);
-        ballsOnTable.put((Button)findViewById(R.id.brown), Integer.MAX_VALUE);
-        ballsOnTable.put((Button)findViewById(R.id.blue), Integer.MAX_VALUE);
-        ballsOnTable.put((Button)findViewById(R.id.pink), Integer.MAX_VALUE);
-        ballsOnTable.put((Button)findViewById(R.id.black), Integer.MAX_VALUE);*/
     }
 
     private void setupAllBalls () {
@@ -67,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
         clrdBalls.add(R.id.yellow);
         clrdBalls.add(R.id.green);
         clrdBalls.add(R.id.brown);
+        clrdBalls.add(R.id.blue);
+        clrdBalls.add(R.id.pink);
+        clrdBalls.add(R.id.black);
+
+        for (int ballId : clrdBalls) {
+            ((Button)findViewById(ballId)).setClickable(false);
+            System.out.println(((Button)findViewById(ballId)).isClickable());
+        }
     }
 
     // unfinished. could have overloading
@@ -139,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        // Each player should start with a red ball if possible
+        if (currentNumRed > 0) {
+            ((Button) findViewById(R.id.red)).setClickable(true);
+            for (int ballId : clrdBalls) {
+                ((Button)findViewById(ballId)).setClickable(false);
+            }
+        }
     }
 
     public void onBall(View view) {
@@ -151,14 +152,21 @@ public class MainActivity extends AppCompatActivity {
 
             currentNumRed--;
 
-            for (int ballId : clrdBalls) {
+            if (currentNumRed == 0) {
+                for (int ballId : clrdBalls) {
+                    ((Button) findViewById(ballId)).setClickable(false);
+                }
+                ((Button) findViewById(clrdBalls.get(0))).setClickable(true);
 
-                ((Button)findViewById(ballId)).setClickable(true);
-
+            } else {
+                for (int ballId : clrdBalls) {
+                    ((Button) findViewById(ballId)).setClickable(true);
+                }
             }
         // Clicked on any other-coloured ball
         } else {
             if (currentNumRed > 0) {
+
                 ((Button) findViewById(R.id.red)).setClickable(true);
 
                 for (int ballId : clrdBalls) {
@@ -166,53 +174,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
 
-                clrdBalls.remove( ((Integer) button.getId()) );
+                //clrdBalls.remove( ((Integer) button.getId()) );
+                //clrdBalls.remove( 0 );
 
-                for (int ballId : clrdBalls) {
+                int nextIndex = clrdBalls.indexOf((Integer) button.getId()) + 1;
 
-                    ((Button)findViewById(ballId)).setClickable(true);
-
+                if (nextIndex < clrdBalls.size()) {
+                    ((Button) findViewById(clrdBalls.get(nextIndex))).setClickable(true);
+                } else {
+                    // End of Game
                 }
+//                for (int ballId : clrdBalls) {
+//                    ((Button)findViewById(ballId)).setClickable(false);
+//                }
+//
+//                ((Button) findViewById(clrdBalls.get(0))).setClickable(true);
             }
 
         }
-/*
-        if (button.getId() == R.id.red) {
-            int currRedOnTable = ballsOnTable.get(R.id.red)-1;
-            ballsOnTable.put(R.id.red, currRedOnTable);
-            if (currRedOnTable == 0) {
-
-            }
-            for (Map.Entry<Integer,Integer> entry : ballsOnTable.entrySet()) {
-
-                ((Button)findViewById(entry.getKey())).setClickable(true);
-
-            }
-        } else {
-            ((Button)findViewById(R.id.red)).setClickable(true);
-        }
-
-        button.setClickable(false);
-
-        switch (button.getId()) {
-            case R.id.red:
-
-                /*((Button)findViewById(R.id.yellow)).setClickable(true);
-                ((Button)findViewById(R.id.green)).setClickable(true);
-                ((Button)findViewById(R.id.brown)).setClickable(true);
-                ((Button)findViewById(R.id.blue)).setClickable(true);
-                ((Button)findViewById(R.id.pink)).setClickable(true);
-                ((Button)findViewById(R.id.black)).setClickable(true);
-            case R.id.yellow:
-            case R.id.green:
-            case R.id.brown:
-            case R.id.blue:
-            case R.id.pink:
-            case R.id.black:
-                ((Button)findViewById(R.id.red)).setClickable(true);
-        }
-
-*/
         int ballPoints = Integer.parseInt( button.getText().toString() );
 
         updatePlayerScore(activeScoreId, ballPoints);
