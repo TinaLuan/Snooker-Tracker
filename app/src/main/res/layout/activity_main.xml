@@ -7,7 +7,7 @@
     tools:context="com.example.tina.snookertracker_1899271.MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/teamName1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.071" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/teamName2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -126,7 +126,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.248" />
-        <!--android:text="@integer/initial_zero"/>-->
+
 
     <TextView
         android:id="@+id/score3"

@@ -17,5 +17,6 @@
     <string name="foul_text">Foul</string>
     <string name="toggle_text">Next</string>
     <string name="end_text">End</string>
+    <string name="title_activity_results">ResultsActivity</string>
 
 </resources>
