@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         setupAllBalls();
 
+        scoreIdToPlayerId.put(R.id.score1, R.id.nameDisplay1);
+        scoreIdToPlayerId.put(R.id.score2, R.id.nameDisplay2);
+        scoreIdToPlayerId.put(R.id.score3, R.id.nameDisplay3);
+        scoreIdToPlayerId.put(R.id.score4, R.id.nameDisplay4);
     }
 
     private void setupAllBalls () {
@@ -160,6 +166,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<Integer> winnerPlayerScoreIds() {
+        ArrayList<Integer> winnerPlayerScoreIds = new ArrayList<>();
+
+        int max = Integer.MIN_VALUE;
+        Iterator<Integer> ir = scoreIdToPlayerId.keySet().iterator();
+        System.out.println(scoreIdToPlayerId.keySet().size());
+        while (ir.hasNext()) {
+            int currentId = ir.next();
+            int currentScore = getPlayerScore(currentId);
+            System.out.println(currentScore);
+            if (currentScore > max) {
+                max = currentScore;
+                winnerPlayerScoreIds.clear();
+                winnerPlayerScoreIds.add(currentId);
+            } else if (currentScore == max) {
+                winnerPlayerScoreIds.add(currentId);
+            }
+        }
+        System.out.println(winnerPlayerScoreIds);
+        return winnerPlayerScoreIds;
+
+        //ArrayList<Integer> playerScoreIds =  new ArrayList<>(scoreIdToPlayerId.keySet());
+//        for (int id : playerScoreIds) {
+//            if (getPlayerScore(id) > max) {
+//
+//            }
+//
+//        }
+
+
+        /*Collections.sort(playerScoreIds, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer integer, Integer t1) {
+                return 0;
+            }
+        });
+
         ArrayList<Integer> playerScores = new ArrayList<>(4);
         playerScores.add(getPlayerScore(R.id.score1));
         playerScores.add(getPlayerScore(R.id.score2));
@@ -172,7 +214,9 @@ public class MainActivity extends AppCompatActivity {
         while (i < playerScores.size() && playerScores.get(i) == playerScores.get(i-1)){
             i++;
         }
-        return new ArrayList<Integer>(playerScores.subList(0, i));
+        System.out.println(new ArrayList<Integer>(playerScores.subList(0, i)));
+        return new ArrayList<Integer>(playerScores.subList(0, i));*/
+
     }
 
 
@@ -274,11 +318,15 @@ public class MainActivity extends AppCompatActivity {
             teamName = ((TextView)findViewById(winnerTeamId())).getText().toString();
         }
 
-
+        System.out.println("ply: "+playerNames);
+        System.out.println("tm: " + teamName);
+/*
         Intent intent = new Intent(this, ResultsActivity.class);
-        intent.putExtra(ResultsActivity.TEAM_NAME, teamName);
-        intent.putExtra(ResultsActivity.PLAYER_NAMES, playerNames);
-        startActivity(intent);
+//        intent.putExtra(ResultsActivity.TEAM_NAME, teamName);
+//        intent.putExtra(ResultsActivity.PLAYER_NAMES, playerNames);
+        intent.putExtra(ResultsActivity.TEAM_NAME, "team");
+        intent.putExtra(ResultsActivity.PLAYER_NAMES, "players");
+        startActivity(intent);*/
         reset();
     }
 
