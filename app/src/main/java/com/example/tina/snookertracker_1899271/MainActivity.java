@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String NAME1 = "name1";
@@ -15,8 +19,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String NAME4 = "name4";
 
     public static final int FOUL_PENALTY = 4;
+    public static final int TOTAL_NUM_RED_BALLS = 15;
 
     private int activeScoreId;
+    private int currentNumRed;
+
+    //private HashMap<Button, Integer> ballsOnTable = new HashMap<>();
+    //private HashMap<Integer, Integer> ballsOnTable = new HashMap<>();
+    private ArrayList<Integer> ballsOnTable = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +45,28 @@ public class MainActivity extends AppCompatActivity {
 
         //System.out.println(name1 + "  " + name2 + name3 + name4);
         activeScoreId = R.id.score1;
+        currentNumRed = TOTAL_NUM_RED_BALLS;
 
+        resetBallsOnTable();
+
+        /*ballsOnTable.put(R.id.red, TOTAL_NUM_RED_BALLS);
+        ballsOnTable.put(R.id.yellow, Integer.MAX_VALUE);
+        ballsOnTable.put(R.id.green, Integer.MAX_VALUE);*/
+
+        /*ballsOnTable.put((Button)findViewById(R.id.red), NUM_RED_BALLS);
+        ballsOnTable.put((Button)findViewById(R.id.yellow), Integer.MAX_VALUE);
+        ballsOnTable.put((Button)findViewById(R.id.green), Integer.MAX_VALUE);
+        ballsOnTable.put((Button)findViewById(R.id.brown), Integer.MAX_VALUE);
+        ballsOnTable.put((Button)findViewById(R.id.blue), Integer.MAX_VALUE);
+        ballsOnTable.put((Button)findViewById(R.id.pink), Integer.MAX_VALUE);
+        ballsOnTable.put((Button)findViewById(R.id.black), Integer.MAX_VALUE);*/
+    }
+
+    private void resetBallsOnTable () {
+        currentNumRed = TOTAL_NUM_RED_BALLS;
+        ballsOnTable.add(R.id.yellow);
+        ballsOnTable.add(R.id.green);
+        ballsOnTable.add(R.id.brown);
     }
 
     // unfinished. could have overloading
@@ -90,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         switch (activeScoreId) {
             case R.id.score1:
                 activeScoreId = R.id.score3;
-                System.out.println("switch from 1" + " to 3");
+                System.out.println("switch from 1 " + " to 3");
                 break;
             case R.id.score2:
                 activeScoreId = R.id.score4;
@@ -111,8 +142,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBall(View view) {
-        System.out.println("Ball----");
-        int ballPoints = Integer.parseInt( ((Button)view).getText().toString() );
+        System.out.println("Ball----" + ((Button)view).getId());
+
+        Button button = ((Button)view);
+
+
+
+        if (button.getId() == R.id.red) {
+            int currRedOnTable = ballsOnTable.get(R.id.red)-1;
+            ballsOnTable.put(R.id.red, currRedOnTable);
+            if (currRedOnTable == 0) {
+
+            }
+            for (Map.Entry<Integer,Integer> entry : ballsOnTable.entrySet()) {
+
+                ((Button)findViewById(entry.getKey())).setClickable(true);
+
+            }
+        } else {
+            ((Button)findViewById(R.id.red)).setClickable(true);
+        }
+
+        button.setClickable(false);
+
+        switch (button.getId()) {
+            case R.id.red:
+
+                /*((Button)findViewById(R.id.yellow)).setClickable(true);
+                ((Button)findViewById(R.id.green)).setClickable(true);
+                ((Button)findViewById(R.id.brown)).setClickable(true);
+                ((Button)findViewById(R.id.blue)).setClickable(true);
+                ((Button)findViewById(R.id.pink)).setClickable(true);
+                ((Button)findViewById(R.id.black)).setClickable(true);*/
+            case R.id.yellow:
+            case R.id.green:
+            case R.id.brown:
+            case R.id.blue:
+            case R.id.pink:
+            case R.id.black:
+                ((Button)findViewById(R.id.red)).setClickable(true);
+        }
+
+
+        int ballPoints = Integer.parseInt( button.getText().toString() );
 
         updatePlayerScore(activeScoreId, ballPoints);
 

@@ -195,6 +195,7 @@
     <Button
         android:id="@+id/red"
         android:onClick="onBall"
+        android:clickable="true"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
@@ -213,6 +214,7 @@
     <Button
         android:id="@+id/yellow"
         android:onClick="onBall"
+        android:clickable="true"
         android:layout_width="43dp"
         android:layout_height="42dp"
         android:layout_marginBottom="8dp"
@@ -231,6 +233,7 @@
     <Button
         android:id="@+id/green"
         android:onClick="onBall"
+        android:clickable="true"
         android:layout_width="43dp"
         android:layout_height="46dp"
         android:layout_marginBottom="8dp"
