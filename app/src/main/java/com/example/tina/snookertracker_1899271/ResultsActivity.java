@@ -32,6 +32,5 @@ public class ResultsActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.winnerTeamDisplay)).setText(WINNER_TEAM_TEXT+teamName);
         ((TextView)findViewById(R.id.winnerPlayersDisplay)).setText(WINNER_PLAYERS_TEXT+playerNames);
-        //System.out.println("win: " + teamName + " " + playerNames);
     }
 }

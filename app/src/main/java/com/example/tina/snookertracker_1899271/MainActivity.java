@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String NAME4 = "name4";
 
     public static final int FOUL_PENALTY = 4;
-    public static final int TOTAL_NUM_RED_BALLS = 3;
-    public static final String TIE = "Nobody! It's a tie!";
+    public static final int TOTAL_NUM_RED_BALLS = 15;
+    public static final String TIE = "Nobody! Tie!";
     public static final int INITIAL_SCORE = 0;
 
     private int activeScoreId;
@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.nameDisplay2)).setText(name2);
         ((TextView)findViewById(R.id.nameDisplay3)).setText(name3);
         ((TextView)findViewById(R.id.nameDisplay4)).setText(name4);
-
-        //System.out.println(name1 + "  " + name2 + name3 + name4);
 
         activeScoreId = R.id.score1;
 
@@ -70,28 +68,20 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.red)).setClickable(true);
         for (int ballId : clrdBalls) {
             ((Button)findViewById(ballId)).setClickable(false);
-            //System.out.println(((Button)findViewById(ballId)).isClickable());
         }
     }
 
-    // unfinished. could have overloading
     private void setTeamScore(int teamScoreId, int score) {
-        // Set team sore for team 1
-        /*int score1 = Integer.parseInt( ((TextView)findViewById(R.id.score1)).getText().toString() );
-        int score2 = Integer.parseInt( ((TextView)findViewById(R.id.score2)).getText().toString() );
-        ((TextView)findViewById(R.id.teamScore1)).setText(Integer.toString(score1 + score2));*/
-
         ((TextView)findViewById(teamScoreId)).setText(Integer.toString(score));
     }
 
     private void setPlayerScore(int playerScoreId, int score) {
         //System.out.println(" id: "+ scoreId + " score: " + score);
-
         ((TextView)findViewById(playerScoreId)).setText(Integer.toString(score));
     }
 
     private void updatePlayerScore(int scoreId, int increment) {
-        System.out.println(" id: "+ scoreId + " score: " + increment);
+        //System.out.println(" id: "+ scoreId + " score: " + increment);
 
         ((TextView)findViewById(scoreId)).setText( Integer.toString(getPlayerScore(activeScoreId) + increment) );
 
@@ -128,19 +118,15 @@ public class MainActivity extends AppCompatActivity {
         switch (activeScoreId) {
             case R.id.score1:
                 activeScoreId = R.id.score3;
-                System.out.println("switch from 1 " + " to 3");
                 break;
             case R.id.score2:
                 activeScoreId = R.id.score4;
-                System.out.println("switch from 2" + " to 4");
                 break;
             case R.id.score3:
                 activeScoreId = R.id.score2;
-                System.out.println("switch from 3" + " to 2");
                 break;
             case R.id.score4:
                 activeScoreId = R.id.score1;
-                System.out.println("switch from 4" + " to 1");
                 break;
             default:
                 break;
@@ -156,26 +142,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String winnerTeamName() {
-
         if (getTeamScore(R.id.teamScore1) > getTeamScore(R.id.teamScore2))
             return ((TextView)findViewById(R.id.teamName1)).getText().toString();
         else if (getTeamScore(R.id.teamScore1) < getTeamScore(R.id.teamScore2))
             return ((TextView)findViewById(R.id.teamName2)).getText().toString();
         else
             return TIE;
-
     }
 
     private String winnerPlayerNames() {
+        // Find the player(s)' scoreId(s) whose score(s) is(are) highest
         ArrayList<Integer> winnerPlayerScoreIds = new ArrayList<>();
 
         int max = Integer.MIN_VALUE;
         Iterator<Integer> ir = scoreIdToPlayerId.keySet().iterator();
-
         while (ir.hasNext()) {
             int currentId = ir.next();
             int currentScore = getPlayerScore(currentId);
-            //System.out.println(currentScore);
+
             if (currentScore > max) {
                 max = currentScore;
                 winnerPlayerScoreIds.clear();
@@ -184,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 winnerPlayerScoreIds.add(currentId);
             }
         }
-
+        // Find the player(s)' name(s)
         String playerNames = "";
         for (int winnerScoreId : winnerPlayerScoreIds) {
             int winnerPlayerId = scoreIdToPlayerId.get(winnerScoreId);
@@ -194,8 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void reset() {
+    private void reset() {
         setPlayerScore(R.id.score1, INITIAL_SCORE);
         setPlayerScore(R.id.score2, INITIAL_SCORE);
         setPlayerScore(R.id.score3, INITIAL_SCORE);
@@ -209,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBall(View view) {
-        System.out.println("Ball----" + ((Button)view).getId());
-
         Button button = ((Button)view);
         button.setClickable(false);
 
@@ -249,7 +230,11 @@ public class MainActivity extends AppCompatActivity {
                     ((Button) findViewById(clrdBalls.get(nextIndex))).setClickable(true);
                 } else {
                     // End of Game
-
+                    Intent intent = new Intent(this, ResultsActivity.class);
+                    intent.putExtra(ResultsActivity.TEAM_NAME, winnerTeamName());
+                    intent.putExtra(ResultsActivity.PLAYER_NAMES, winnerPlayerNames());
+                    startActivity(intent);
+                    reset();
                 }
 
             }
@@ -262,45 +247,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onToggle(View view) {
-        System.out.println("toggle-----");
         switchActivePlayer();
     }
 
     public void onFoul(View view) {
-        System.out.println("FOUL-----");
         switchActivePlayer();
         updatePlayerScore(activeScoreId, FOUL_PENALTY);
 
     }
 
     public void onEnd(View view) {
-        System.out.println("END-----");
-        //System.out.println("tm: " + winnerTeamName());
-        //System.out.println("ply: "+winnerPlayerNames());
-
-/*
-        // Player(s) with highest scores
-        String playerNames = "";
-        for (int winnerScoreId : winnerPlayerScoreIds()) {
-            int winnerPlayerId = scoreIdToPlayerId.get(winnerScoreId);
-            playerNames += ((TextView)findViewById(winnerPlayerId)).getText().toString() + " ";
-        }
-
-        // Winner Team
-        String teamName = "";
-        if (winnerTeamId() == TIE) {
-            teamName = "Nobody! It's a tie!";
-        } else {
-            teamName = ((TextView)findViewById(winnerTeamId())).getText().toString();
-        }
-
-        System.out.println("ply: "+playerNames);
-        System.out.println("tm: " + teamName);*/
-
-
         Intent intent = new Intent(this, ResultsActivity.class);
-//        intent.putExtra(ResultsActivity.TEAM_NAME, teamName);
-//        intent.putExtra(ResultsActivity.PLAYER_NAMES, playerNames);
         intent.putExtra(ResultsActivity.TEAM_NAME, winnerTeamName());
         intent.putExtra(ResultsActivity.PLAYER_NAMES, winnerPlayerNames());
         startActivity(intent);

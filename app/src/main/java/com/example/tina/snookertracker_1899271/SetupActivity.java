@@ -24,7 +24,6 @@ public class SetupActivity extends AppCompatActivity {
         String name2 = ((EditText)findViewById(R.id.userName2)).getText().toString();
         String name3 = ((EditText)findViewById(R.id.userName3)).getText().toString();
         String name4 = ((EditText)findViewById(R.id.userName4)).getText().toString();
-        //System.out.println(name1 + "  " + name2);
 
         if (name1.length() == 0) {name1 = DEFAUL_PLAYER_NAME_1;}
         if (name2.length() == 0) {name2 = DEFAUL_PLAYER_NAME_2;}
