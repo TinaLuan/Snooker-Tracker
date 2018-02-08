@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int FOUL_PENALTY = 4;
     public static final int TOTAL_NUM_RED_BALLS = 3;
-    public static final int TIE = 0;
+    public static final String TIE = "Nobody! It's a tie!";
     public static final int INITIAL_SCORE = 0;
 
     private int activeScoreId;
@@ -155,26 +155,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int winnerTeamId() {
-        if (getTeamScore(R.id.teamScore1) > getTeamScore(R.id.teamScore1))
-            return R.id.teamName1;
-        else if (getTeamScore(R.id.teamScore1) < getTeamScore(R.id.teamScore1))
-            return R.id.teamName2;
+    private String winnerTeamName() {
+
+        if (getTeamScore(R.id.teamScore1) > getTeamScore(R.id.teamScore2))
+            return ((TextView)findViewById(R.id.teamName1)).getText().toString();
+        else if (getTeamScore(R.id.teamScore1) < getTeamScore(R.id.teamScore2))
+            return ((TextView)findViewById(R.id.teamName2)).getText().toString();
         else
             return TIE;
 
     }
 
-    private ArrayList<Integer> winnerPlayerScoreIds() {
+    private String winnerPlayerNames() {
         ArrayList<Integer> winnerPlayerScoreIds = new ArrayList<>();
 
         int max = Integer.MIN_VALUE;
         Iterator<Integer> ir = scoreIdToPlayerId.keySet().iterator();
-        System.out.println(scoreIdToPlayerId.keySet().size());
+
         while (ir.hasNext()) {
             int currentId = ir.next();
             int currentScore = getPlayerScore(currentId);
-            System.out.println(currentScore);
+            //System.out.println(currentScore);
             if (currentScore > max) {
                 max = currentScore;
                 winnerPlayerScoreIds.clear();
@@ -183,39 +184,13 @@ public class MainActivity extends AppCompatActivity {
                 winnerPlayerScoreIds.add(currentId);
             }
         }
-        System.out.println(winnerPlayerScoreIds);
-        return winnerPlayerScoreIds;
 
-        //ArrayList<Integer> playerScoreIds =  new ArrayList<>(scoreIdToPlayerId.keySet());
-//        for (int id : playerScoreIds) {
-//            if (getPlayerScore(id) > max) {
-//
-//            }
-//
-//        }
-
-
-        /*Collections.sort(playerScoreIds, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer integer, Integer t1) {
-                return 0;
-            }
-        });
-
-        ArrayList<Integer> playerScores = new ArrayList<>(4);
-        playerScores.add(getPlayerScore(R.id.score1));
-        playerScores.add(getPlayerScore(R.id.score2));
-        playerScores.add(getPlayerScore(R.id.score3));
-        playerScores.add(getPlayerScore(R.id.score4));
-
-        Collections.sort(playerScores, Collections.reverseOrder());
-
-        int i=1;
-        while (i < playerScores.size() && playerScores.get(i) == playerScores.get(i-1)){
-            i++;
+        String playerNames = "";
+        for (int winnerScoreId : winnerPlayerScoreIds) {
+            int winnerPlayerId = scoreIdToPlayerId.get(winnerScoreId);
+            playerNames += ((TextView)findViewById(winnerPlayerId)).getText().toString() + " ";
         }
-        System.out.println(new ArrayList<Integer>(playerScores.subList(0, i)));
-        return new ArrayList<Integer>(playerScores.subList(0, i));*/
+        return playerNames;
 
     }
 
@@ -300,12 +275,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onEnd(View view) {
         System.out.println("END-----");
+        //System.out.println("tm: " + winnerTeamName());
+        //System.out.println("ply: "+winnerPlayerNames());
 
+/*
         // Player(s) with highest scores
         String playerNames = "";
-        //ArrayList<Integer> winnerPlayerIds = new ArrayList<>();
         for (int winnerScoreId : winnerPlayerScoreIds()) {
-            //winnerPlayerIds.add( scoreIdToPlayerId.get(winnerScoreId) );
             int winnerPlayerId = scoreIdToPlayerId.get(winnerScoreId);
             playerNames += ((TextView)findViewById(winnerPlayerId)).getText().toString() + " ";
         }
@@ -319,14 +295,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         System.out.println("ply: "+playerNames);
-        System.out.println("tm: " + teamName);
-/*
+        System.out.println("tm: " + teamName);*/
+
+
         Intent intent = new Intent(this, ResultsActivity.class);
 //        intent.putExtra(ResultsActivity.TEAM_NAME, teamName);
 //        intent.putExtra(ResultsActivity.PLAYER_NAMES, playerNames);
-        intent.putExtra(ResultsActivity.TEAM_NAME, "team");
-        intent.putExtra(ResultsActivity.PLAYER_NAMES, "players");
-        startActivity(intent);*/
+        intent.putExtra(ResultsActivity.TEAM_NAME, winnerTeamName());
+        intent.putExtra(ResultsActivity.PLAYER_NAMES, winnerPlayerNames());
+        startActivity(intent);
         reset();
     }
 
